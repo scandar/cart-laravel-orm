@@ -2,8 +2,9 @@
 namespace App\Domain\Item;
 
 /**
- *
- */
+*   Item Entity
+*   Contains entity getters and setters
+*/
 class Item
 {
     protected $id;
@@ -46,6 +47,10 @@ class Item
         $this->sale = $sale;
     }
 
+    /**
+    *   entity columns whitelist
+    *   used on saving to database
+    */
     public function whitelist()
     {
         return [

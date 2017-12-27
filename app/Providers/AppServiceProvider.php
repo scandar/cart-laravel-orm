@@ -32,6 +32,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+
+        //  NOT USING A LOOP BECAUSE OF ERROR:
+        //  PHP Fatal error:  Dynamic class names are not allowed in compile-time ::class
+        //  REGISTERNIG STATICALLY TILL I FIGURE IT OUT 
+
         $this->app->bind(CartRepository::class, function($app) {
           // This is what Doctrine's EntityRepository needs in its constructor.
           return new DoctrineCartRepository(

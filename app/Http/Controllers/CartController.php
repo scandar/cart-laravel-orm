@@ -7,14 +7,21 @@ use App\Cart;
 use App\Item;
 use App\ItemCart;
 
+/*
+*   Cart Controller
+*   used for cart operations
+*/
+
 class CartController extends Controller
 {
-    protected $repository;
+    //MODEL INSTANCES
     protected $cart;
     protected $item;
     protected $item_cart;
 
-
+    /*
+    *   instantiating models
+    */
     public function __construct()
     {
         $this->cart = new Cart;
@@ -22,12 +29,18 @@ class CartController extends Controller
         $this->item_cart = new ItemCart;
     }
 
+    /*
+    *   returns the welcomde view with items
+    */
     public function index()
     {
         $items = $this->item->repository->findAll();
         return view('welcome', ['items' => $items]);
     }
 
+    /*
+    *   returns a cart by it's ID
+    */
     public function getCartById($id)
     {
         try {
@@ -49,6 +62,9 @@ class CartController extends Controller
         ->header('Content-Type', 'text/plain');
     }
 
+    /*
+    *   returns all items assocciated with a single cart
+    */
     public function getCartItems($id)
     {
         $data = [];
@@ -70,6 +86,9 @@ class CartController extends Controller
         return json_encode($data);
     }
 
+    /*
+    *   creates a new cart and return it
+    */
     public function create(Request $request)
     {
         $cart = $this->cart->repository->create(['wishlist'=>$request->wishlist]);
@@ -82,6 +101,9 @@ class CartController extends Controller
         return json_encode($data);
     }
 
+    /*
+    *   creates a new items_cart record
+    */
     public function addItemCart(Request $request)
     {
         try {
@@ -103,6 +125,9 @@ class CartController extends Controller
                 ->header('Content-Type', 'text/plain');
     }
 
+    /*
+    *   removes an item_cart record
+    */
     public function destroyItemCart(Request $request)
     {
         try {
@@ -120,6 +145,9 @@ class CartController extends Controller
                 ->header('Content-Type', 'text/plain');
     }
 
+    /*
+    *   removes all items associated with a single cart
+    */
     public function emptyCart(Request $request)
     {
         try {

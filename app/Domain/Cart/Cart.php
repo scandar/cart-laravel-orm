@@ -2,7 +2,10 @@
 namespace App\Domain\Cart;
 
 use App\Domain\Item\Item;
-
+/**
+*   Cart Entity
+*   Contains entity getters and setters
+*/
 class Cart
 {
     protected $id;
@@ -23,6 +26,10 @@ class Cart
         $this->wishlist = $bool;
     }
 
+    /**
+    *   entity columns whitelist
+    *   used on saving to database
+    */
     public function whitelist()
     {
         return [

@@ -8,6 +8,9 @@ use App;
 
 class Cart extends DoctrineCartRepository
 {
+    /*
+    *   instantiating repository
+    */
     public function __construct()
     {
         $this->repository = App::make(CartRepository::class);

@@ -62,9 +62,15 @@ function populateCart(id,wishlist) {
             $.each(data, function(id, data) {
                 html += `<li data-id=${id}>
                             <h5>
-                                <span>${data.name}</span>
-                                <small>${data.price}</small>
-                                <a href="#" data-type="delete" class="btn btn-sm btn-danger">remove</a>
+                                <span class="row">
+                                    <span class="col-md-6">
+                                        <span>${data.name}</span>
+                                        <small>${data.price}</small>
+                                    </span>
+                                    <span class="col-md-6">
+                                        <a href="#" data-type="delete" class="btn btn-sm btn-danger">remove</a>
+                                    </span>
+                                </span>
                             </h5>
                         </li>`;
             });

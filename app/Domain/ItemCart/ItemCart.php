@@ -1,6 +1,10 @@
 <?php
 namespace App\Domain\ItemCart;
 
+/**
+*   ItemCart Entity
+*   Contains entity getters and setters
+*/
 class ItemCart
 {
     protected $id;
@@ -55,6 +59,10 @@ class ItemCart
         $this->item = $item;
     }
 
+    /**
+    *   entity columns whitelist
+    *   used on saving to database
+    */
     public function whitelist()
     {
         return [
