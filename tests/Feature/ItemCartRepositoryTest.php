@@ -32,8 +32,8 @@ class ItemCartRepositoryTest extends TestCase
 
     public function testCreateAndSave()
     {
-        $item = $this->item->create(['name' => 'item','price'=>1.99]);
-        $cart = $this->cart->create(['token' => 'iowj1oih13112ssq','wishlist'=>0]);
+        $item = $this->item->create(['name' => 'item','price'=>1.99,'sale'=>true]);
+        $cart = $this->cart->create(['wishlist'=>0]);
         $data = [
           'cart' => $cart,
           'item' => $item
@@ -48,8 +48,8 @@ class ItemCartRepositoryTest extends TestCase
 
     public function testUpdateAndSave()
     {
-        $item = $this->item->create(['name' => 'itemupdate','price'=>2.99]);
-        $cart = $this->cart->create(['token' => 'iowj1oih13112ssq','wishlist'=>0]);
+        $item = $this->item->create(['name' => 'itemupdate','price'=>2.99,'sale'=>false]);
+        $cart = $this->cart->create(['wishlist'=>0]);
         $data = [
           'cart' => $cart,
           'item' => $item

@@ -24,11 +24,118 @@ class CartController extends Controller
 
     public function index()
     {
-        // $item = $this->item->repository->find('b73a9a43-0a99-43d8-a33b-45dba4114b43');
-        // dd($item);
-        // $cart = $this->cart->repository->create(['token'=>'dwqedwqewqrqeww','wishlist'=>'0']);
-        // $cart = $this->cart->repository->save($cart);
-        // return $item_cart->getCart()->getToken();
-        // $this->cart->repository->save($cart);
+        $items = $this->item->repository->findAll();
+        return view('welcome', ['items' => $items]);
+    }
+
+    public function getCartById($id)
+    {
+        try {
+            $cart = $this->cart->repository->find($id);
+        } catch (\Exception $e) {
+            return response('not found', 404)
+                    ->header('Content-Type', 'text/plain');
+        }
+
+        if ($cart != null) {
+            $data = [
+                'id' => $cart->getId()->toString(),
+                'wishlist' => $cart->getWishlist(),
+            ];
+            return json_encode($data);
+        }
+
+        return response('not found', 404)
+        ->header('Content-Type', 'text/plain');
+    }
+
+    public function getCartItems($id)
+    {
+        $data = [];
+
+        try {
+            $item_carts = $this->item_cart->repository
+                ->findBy([
+                    'cart_id' => $id,
+                ]);
+        } catch (\Exception $e) {
+            return response('not found', 404)
+                    ->header('Content-Type', 'text/plain');
+        }
+
+        foreach ($item_carts as $icart) {
+            $data[$icart->getItem()->getId()->tostring()]['name'] = $icart->getItem()->getName();
+            $data[$icart->getItem()->getId()->tostring()]['price'] = $icart->getItem()->getPrice();
+        }
+        return json_encode($data);
+    }
+
+    public function create(Request $request)
+    {
+        $cart = $this->cart->repository->create(['wishlist'=>$request->wishlist]);
+        $cart = $this->cart->repository->save($cart);
+
+        $data = [
+            'id' => $cart->getId()->toString(),
+            'wishlist' => $cart->getWishlist(),
+        ];
+        return json_encode($data);
+    }
+
+    public function addItemCart(Request $request)
+    {
+        try {
+            $cart = $this->cart->repository->find($request->cart_id);
+            $item = $this->item->repository->find($request->item_id);
+        } catch (\Exception $e) {
+            return response('not found', 404)
+                    ->header('Content-Type', 'text/plain');
+        }
+
+        $item_cart = $this->item_cart->repository->create([
+            'item' => $item,
+            'cart' => $cart
+        ]);
+
+        $item_cart = $this->item_cart->repository->save($item_cart);
+
+        return response('success', 200)
+                ->header('Content-Type', 'text/plain');
+    }
+
+    public function destroyItemCart(Request $request)
+    {
+        try {
+            $item_cart = $this->item_cart->repository->findOneBy([
+                'cart_id' => $request->cart_id,
+                'item_id' => $request->item_id,
+            ]);
+        } catch (\Exception $e) {
+            return response('not found', 404)
+                    ->header('Content-Type', 'text/plain');
+        }
+
+        $this->item_cart->repository->delete($item_cart);
+        return response('success', 200)
+                ->header('Content-Type', 'text/plain');
+    }
+
+    public function emptyCart(Request $request)
+    {
+        try {
+            $item_carts = $this->item_cart->repository->findBy([
+                'cart_id' => $request->cart_id,
+            ]);
+        } catch (\Exception $e) {
+            return response('not found', 404)
+                    ->header('Content-Type', 'text/plain');
+        }
+
+        foreach ($item_carts as $icart) {
+            $this->item_cart->repository->delete($icart);
+        }
+
+        return response('success', 200)
+                ->header('Content-Type', 'text/plain');
     }
 }

@@ -42,6 +42,9 @@ return [
             ],
             'price' => [
                 'type' => 'float',
+            ],
+            'sale' => [
+                'type' => 'boolean',
             ]
         ],
     ],

@@ -24,7 +24,8 @@ class ItemRepositoryTest extends TestCase
     {
         $data = [
           'name' => 'foo',
-          'price' => 1.99
+          'price' => 1.99,
+          'sale' => false,
         ];
         $item = $this->repository->create($data);
         self::$item = $this->repository->save($item);
@@ -36,13 +37,15 @@ class ItemRepositoryTest extends TestCase
     {
         $data = [
           'name' => 'bar',
-          'price' => 2.99
+          'price' => 2.99,
+          'sale' => 1
         ];
         $item = $this->repository->update($data, self::$item->getId());
         self::$item = $this->repository->save($item);
 
         $this->assertEquals($data['name'], self::$item->getName());
         $this->assertEquals($data['price'], self::$item->getPrice());
+        $this->assertEquals($data['sale'], self::$item->getSale());
     }
 
     public function testFindAll()

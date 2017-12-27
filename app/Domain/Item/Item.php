@@ -9,6 +9,7 @@ class Item
     protected $id;
     protected $name;
     protected $price;
+    protected $sale;
 
     public function getId()
     {
@@ -25,7 +26,6 @@ class Item
         $this->name = $name;
     }
 
-
     public function getPrice()
     {
         return $this->price;
@@ -36,11 +36,22 @@ class Item
         $this->price = $price;
     }
 
+    public function getSale()
+    {
+        return $this->sale;
+    }
+
+    public function setSale($sale)
+    {
+        $this->sale = $sale;
+    }
+
     public function whitelist()
     {
         return [
             'name',
-            'price'
+            'price',
+            'sale',
         ];
     }
 }
